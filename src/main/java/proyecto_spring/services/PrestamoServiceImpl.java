@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import proyecto_spring.entities.Prestamo;
+import proyecto_spring.repositories.LibroRepository;
 import proyecto_spring.repositories.PrestamoRepository;
+import proyecto_spring.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,12 @@ public class PrestamoServiceImpl implements PrestamoService{
 
     @Autowired
     private PrestamoRepository prestamoRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private LibroRepository libroRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -31,21 +39,24 @@ public class PrestamoServiceImpl implements PrestamoService{
     @Override
     @Transactional
     public Prestamo save(Prestamo prestamo) {
+        prestamo.setUsuario(userRepository.findById(prestamo.getUsuario().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+        prestamo.setLibro(libroRepository.findById(prestamo.getLibro().getId())
+                .orElseThrow(() -> new RuntimeException("Libro no encontrado")));
         return prestamoRepository.save(prestamo);
     }
-
     @Override
     @Transactional
-    public Optional <Prestamo> update(Long id, Prestamo prestamo) {
-        Optional <Prestamo> productOptional = prestamoRepository.findById(id);
-        if(productOptional.isPresent()){
-            Prestamo prestamoDb = productOptional.orElseThrow();
+    public Optional<Prestamo> update(Long id, Prestamo prestamo) {
+        return prestamoRepository.findById(id).map(prestamoDb -> {
             prestamoDb.setFechaLimite(prestamo.getFechaLimite());
-            prestamoDb.setLibroId(prestamo.getLibroId());
-            prestamoDb.setUsuarioId(prestamo.getUsuarioId());
-            return Optional.of(prestamoRepository.save(prestamoDb));
-        }
-        return productOptional;
+            prestamoDb.setUsuario(userRepository.findById(prestamo.getUsuario().getId())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+            prestamoDb.setLibro(libroRepository.findById(prestamo.getLibro().getId())
+                    .orElseThrow(() -> new RuntimeException("Libro no encontrado")));
+            prestamoRepository.save(prestamoDb);
+            return prestamoDb;
+        });
     }
 
     @Override
