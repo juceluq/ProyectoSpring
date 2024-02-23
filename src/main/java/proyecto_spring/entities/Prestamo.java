@@ -38,7 +38,7 @@ public class Prestamo {
     private LocalDate fechaReserva;
 
     @Column(name = "fecha_limite")
-    @NotNull(message = "El campo fechaLimite no puede ser nulo")
+    @NotNull(message = "El campo fechaLimite no puede ser nulo (dd/MM/yyyy)")
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate fechaLimite;
 
