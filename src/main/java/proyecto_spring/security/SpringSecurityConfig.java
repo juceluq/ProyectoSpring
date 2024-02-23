@@ -38,19 +38,29 @@ public class SpringSecurityConfig {
         return http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+
                 .requestMatchers(HttpMethod.GET, "/api/libros", "/api/libros/{id}").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.POST, "/api/libros").hasAnyRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/libros/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/libros/{id}").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/prestamos").hasAnyRole("ADMIN", "USER") //PREGUNTAR HACER QUE SOLO VEA EL PRESTAMO QUE TENGA
+
+                .requestMatchers(HttpMethod.GET, "/api/prestamos").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "/api/prestamos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/prestamos/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/prestamos/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/reservas").hasAnyRole("ADMIN", "USER") //PREGUNTAR HACER QUE SOLO VEA LA RESERVA QUE TENGA
+
+                        .requestMatchers(HttpMethod.GET, "/api/reservas").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "/api/reservas").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/reservas/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/reservas/{id}").hasRole("ADMIN")
-                .anyRequest().authenticated())
+
+                        .requestMatchers(HttpMethod.GET, "/api/actividades").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/actividades").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/actividades/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/actividades/{id}").hasRole("ADMIN")
+
+
+                        .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
                 .csrf(config -> config.disable())
