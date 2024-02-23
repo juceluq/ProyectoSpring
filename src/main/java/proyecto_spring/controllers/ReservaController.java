@@ -8,8 +8,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import proyecto_spring.entities.Prestamo;
-import proyecto_spring.services.PrestamoService;
+import proyecto_spring.entities.Reserva;
+import proyecto_spring.services.ReservaService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,29 +17,28 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/prestamos")
-public class PrestamoController {
-
+@RequestMapping("/api/reservas")
+public class ReservaController {
     @Autowired
-    private PrestamoService prestamoService;
+    private ReservaService reservaService;
 
     @GetMapping
-    public List<Prestamo> list(){
-        return prestamoService.findAll();
+    public List<Reserva> list(){
+        return reservaService.findAll();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Prestamo> view(@PathVariable Long id){
-        Optional<Prestamo> prestamoOptional = prestamoService.findById(id);
-        if(prestamoOptional.isPresent()){
-            return ResponseEntity.ok(prestamoOptional.orElseThrow());
+    public ResponseEntity<Reserva> view(@PathVariable Long id){
+        Optional<Reserva> reservaOptional = reservaService.findById(id);
+        if(reservaOptional.isPresent()){
+            return ResponseEntity.ok(reservaOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Prestamo> create(@RequestBody @Validated Prestamo prestamo) {
-        Prestamo savedPrestamo = prestamoService.save(prestamo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPrestamo);
+    public ResponseEntity<Reserva> create(@RequestBody @Validated Reserva reserva) {
+        Reserva savedReserva = reservaService.save(reserva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReserva);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -53,19 +52,19 @@ public class PrestamoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Prestamo> update(@PathVariable Long id, @RequestBody @Validated Prestamo prestamo){
-        Optional <Prestamo> prestamoOptional = prestamoService.update(id, prestamo);
-        if(prestamoOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(prestamoOptional.orElseThrow());
+    public ResponseEntity<Reserva> update(@PathVariable Long id, @RequestBody @Validated Reserva reserva){
+        Optional <Reserva> reservaOptional = reservaService.update(id, reserva);
+        if(reservaOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(reservaOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Prestamo> delete(@PathVariable Long id){
-        Optional<Prestamo> prestamoOptional = prestamoService.delete(id);
-        if(prestamoOptional.isPresent()){
-            return ResponseEntity.ok(prestamoOptional.orElseThrow());
+    public ResponseEntity<Reserva> delete(@PathVariable Long id){
+        Optional<Reserva> reservaOptional = reservaService.delete(id);
+        if(reservaOptional.isPresent()){
+            return ResponseEntity.ok(reservaOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }

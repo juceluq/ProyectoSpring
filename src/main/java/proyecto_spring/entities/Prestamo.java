@@ -34,9 +34,9 @@ public class Prestamo {
     @NotNull(message = "El campo libro no puede ser nulo")
     private Libro libro;
 
-    @Column(name = "fecha_reserva")
+    @Column(name = "fecha_inicial")
     @JsonFormat(pattern="dd/MM/yyyy")
-    private LocalDate fechaReserva;
+    private LocalDate fechaInicial;
 
     @Column(name = "fecha_limite")
     @NotNull(message = "El campo fechaLimite no puede ser nulo (dd/MM/yyyy)")
@@ -47,9 +47,9 @@ public class Prestamo {
     @NotNull(message = "El campo devuelto no puede ser nulo (true = si, false = no)")
     private boolean devuelto;
 
-    @AssertTrue(message="La fecha límite debe ser posterior a la fecha de reserva")
+    @AssertTrue(message="La fecha límite debe ser posterior a la fecha inicial")
     private boolean isFechaLimiteValida() {
-        fechaReserva = LocalDate.now();
-        return fechaLimite.isAfter(fechaReserva);
+        fechaInicial = LocalDate.now();
+        return fechaLimite.isAfter(fechaInicial);
     }
 }

@@ -46,6 +46,10 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/prestamos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/prestamos/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/prestamos/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/reservas").hasAnyRole("ADMIN", "USER") //PREGUNTAR HACER QUE SOLO VEA LA RESERVA QUE TENGA
+                        .requestMatchers(HttpMethod.POST, "/api/reservas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/reservas/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/reservas/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
