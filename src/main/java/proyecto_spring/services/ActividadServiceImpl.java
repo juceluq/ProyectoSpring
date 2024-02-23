@@ -44,6 +44,7 @@ public class ActividadServiceImpl implements ActividadService{
     public Optional<Actividad> update(Long id, Actividad actividad) {
         return actividadRepository.findById(id).map(actividadDb -> {
             actividadDb.setFechaHoraActividad(actividad.getFechaHoraActividad());
+            actividadDb.setDescripcion(actividad.getDescripcion());
             actividadDb.setUsuario(userRepository.findById(actividad.getUsuario().getId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
             actividadRepository.save(actividadDb);

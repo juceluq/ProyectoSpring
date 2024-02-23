@@ -30,7 +30,7 @@ public class Actividad {
 
     @Column(name = "fecha_hora_actividad")
     @JsonFormat(pattern="dd/MM/yyyy HH:mm")
-    private LocalDateTime fechaHoraActividad;
+    private LocalDateTime fechaHoraActividad = LocalDateTime.now();
 
     private String descripcion;
 
