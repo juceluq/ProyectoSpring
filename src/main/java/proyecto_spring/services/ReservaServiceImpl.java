@@ -49,6 +49,7 @@ public class ReservaServiceImpl implements ReservaService{
     public Optional<Reserva> update(Long id, Reserva reserva) {
         return reservaRepository.findById(id).map(prestamoDb -> {
             prestamoDb.setFechaReserva(reserva.getFechaReserva());
+            prestamoDb.setEstado(String.valueOf(reserva.getEstado()));
             prestamoDb.setUsuario(userRepository.findById(reserva.getUsuario().getId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
             prestamoDb.setLibro(libroRepository.findById(reserva.getLibro().getId())
