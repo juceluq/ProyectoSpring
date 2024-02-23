@@ -50,6 +50,7 @@ public class PrestamoServiceImpl implements PrestamoService{
     public Optional<Prestamo> update(Long id, Prestamo prestamo) {
         return prestamoRepository.findById(id).map(prestamoDb -> {
             prestamoDb.setFechaLimite(prestamo.getFechaLimite());
+            prestamoDb.setDevuelto(prestamo.isDevuelto());
             prestamoDb.setUsuario(userRepository.findById(prestamo.getUsuario().getId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
             prestamoDb.setLibro(libroRepository.findById(prestamo.getLibro().getId())
