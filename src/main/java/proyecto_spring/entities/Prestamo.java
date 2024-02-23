@@ -1,6 +1,7 @@
 package proyecto_spring.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -42,12 +43,13 @@ public class Prestamo {
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate fechaLimite;
 
-    @Column(name = "reservado")
-    @NotNull(message = "El campo reservado no puede ser nulo (true = si, false = no)")
-    private boolean reservado;
+    @Column(name = "devuelto")
+    @NotNull(message = "El campo devuelto no puede ser nulo (true = si, false = no)")
+    private boolean devuelto;
 
-    @PrePersist
-    protected void onCreate() {
+    @AssertTrue(message="La fecha límite debe ser posterior a la fecha de reserva")
+    private boolean isFechaLimiteValida() {
         fechaReserva = LocalDate.now();
+        return fechaLimite.isAfter(fechaReserva);
     }
 }
