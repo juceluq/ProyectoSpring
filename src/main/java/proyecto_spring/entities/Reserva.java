@@ -2,6 +2,7 @@ package proyecto_spring.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -48,9 +49,19 @@ public class Reserva {
     @NotNull(message = "El campo estado no puede ser nulo(Reservado, Cancelado, Disponible)")
     private EstadoReserva estado;
 
+    @JsonProperty("estado")
+    public void setEstado(String estado) {
+        this.estado = EstadoReserva.valueOf(estado.toUpperCase());
+    }
+
+
     @AssertTrue(message="La fecha de reserva debe ser posterior a la fecha de hoy.")
     private boolean isFechaReservaValida() {
         LocalDate fechaInicial = LocalDate.now();
-        return fechaReserva.isAfter(fechaInicial);
+        if(fechaReserva == null){
+            return true;
+        }else{
+            return fechaReserva.isAfter(fechaInicial);
+        }
     }
 }
