@@ -1,6 +1,7 @@
 package proyecto_spring.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,12 @@ public class ReservaController {
     private ReservaService reservaService;
 
     @GetMapping
+    @Operation(summary = "Obtiene una lista de reservas.")
     public List<Reserva> list(){
         return reservaService.findAll();
     }
     @GetMapping("/{id}")
+    @Operation(summary = "Obtiene una reserva.")
     public ResponseEntity<Reserva> view(@PathVariable Long id){
         Optional<Reserva> reservaOptional = reservaService.findById(id);
         if(reservaOptional.isPresent()){
@@ -36,22 +39,14 @@ public class ReservaController {
     }
 
     @PostMapping
+    @Operation(summary = "Crea una reserva.")
     public ResponseEntity<Reserva> create(@RequestBody @Validated Reserva reserva) {
         Reserva savedReserva = reservaService.save(reserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReserva);
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return ResponseEntity.badRequest().body(errors);
-    }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Actualiza una reserva.")
     public ResponseEntity<Reserva> update(@PathVariable Long id, @RequestBody @Validated Reserva reserva){
         Optional <Reserva> reservaOptional = reservaService.update(id, reserva);
         if(reservaOptional.isPresent()) {
@@ -61,11 +56,23 @@ public class ReservaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Borra una reserva.")
     public ResponseEntity<Reserva> delete(@PathVariable Long id){
         Optional<Reserva> reservaOptional = reservaService.delete(id);
         if(reservaOptional.isPresent()){
             return ResponseEntity.ok(reservaOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 }

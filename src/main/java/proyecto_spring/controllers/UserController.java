@@ -2,6 +2,7 @@
 
 package proyecto_spring.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import proyecto_spring.entities.User;
 import proyecto_spring.services.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping
+    @Operation(summary = "Obtiene una lista de todos los usuarios existentes.")
     public List<User> list(){
         return userService.findAll();
     }
@@ -36,6 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Crea un usuario.")
     public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult result){
 
 

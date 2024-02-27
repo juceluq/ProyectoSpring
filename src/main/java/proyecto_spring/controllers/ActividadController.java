@@ -1,6 +1,7 @@
 package proyecto_spring.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,13 @@ public class ActividadController {
     private ActividadService actividadService;
 
     @GetMapping
+    @Operation(summary = "Obtiene una lista de todas las actividades.")
     public List<Actividad> list(){
         return actividadService.findAll();
     }
+
     @GetMapping("/{id}")
+    @Operation(summary = "Obtiene una actividad en especifico.")
     public ResponseEntity<Actividad> view(@PathVariable Long id){
         Optional<Actividad> actividadOptional = actividadService.findById(id);
         if(actividadOptional.isPresent()){
@@ -37,9 +41,30 @@ public class ActividadController {
     }
 
     @PostMapping
+    @Operation(summary = "Crea una actividad de un usuario.")
     public ResponseEntity<Actividad> create(@RequestBody @Validated Actividad actividad) {
         Actividad savedActividad = actividadService.save(actividad);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedActividad);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualiza la información de una actividad.")
+    public ResponseEntity<Actividad> update(@PathVariable Long id, @RequestBody @Validated Actividad actividad){
+        Optional <Actividad> actividadOptional = actividadService.update(id, actividad);
+        if(actividadOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(actividadOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Borra una actividad.")
+    public ResponseEntity<Actividad> delete(@PathVariable Long id){
+        Optional<Actividad> actividadOptional = actividadService.delete(id);
+        if(actividadOptional.isPresent()){
+            return ResponseEntity.ok(actividadOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -50,23 +75,5 @@ public class ActividadController {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.badRequest().body(errors);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Actividad> update(@PathVariable Long id, @RequestBody @Validated Actividad actividad){
-        Optional <Actividad> actividadOptional = actividadService.update(id, actividad);
-        if(actividadOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(actividadOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Actividad> delete(@PathVariable Long id){
-        Optional<Actividad> actividadOptional = actividadService.delete(id);
-        if(actividadOptional.isPresent()){
-            return ResponseEntity.ok(actividadOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
     }
 }
