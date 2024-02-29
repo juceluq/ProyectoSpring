@@ -1,2 +1,12 @@
 INSERT INTO role (name) VALUES ('ROLE_ADMIN') ON DUPLICATE KEY UPDATE name = VALUES(name);
 INSERT INTO role (name) VALUES ('ROLE_USER') ON DUPLICATE KEY UPDATE name = VALUES(name);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Mark Twain', 641864, false);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('J.K. Rowling', 753743, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('J.R.R. Tolkien', 110573, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('George Orwell', 454935, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Leo Tolstoy', 852606, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Fyodor Dostoevsky', 464370, false);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Gabriel García Márquez', 603287, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Charles Dickens', 414395, true);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Herman Melville', 143747, false);
+INSERT INTO libros (autor, isbn, disponibilidad) VALUES ('Jane Austen', 67972, true);
