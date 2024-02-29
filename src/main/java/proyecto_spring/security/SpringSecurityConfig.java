@@ -46,6 +46,9 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/libros/disponible").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/api/libros/autor").hasAnyRole("ADMIN", "USER")
 
+
+
+
                 .requestMatchers(HttpMethod.GET, "/api/prestamos").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.POST, "/api/prestamos").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/prestamos/{id}").hasRole("ADMIN")
@@ -53,6 +56,10 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/prestamos/por-libro").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/api/prestamos/por-usuario").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/api/prestamos/atrasados").hasAnyRole("ADMIN", "USER")
+
+
+
+
 
                 .requestMatchers(HttpMethod.GET, "/api/reservas").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.POST, "/api/reservas").hasRole("ADMIN")
@@ -63,6 +70,12 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/actividades").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.PUT, "/api/actividades/{id}").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/actividades/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/actividades/fecha").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET, "/api/actividades/descripcion").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET, "/api/actividades/usuario/{usuarioId}").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET, "/api/actividades/usuario-fecha").hasAnyRole("ADMIN", "USER")
+
+
 
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/swagger-ui.html").permitAll()
 

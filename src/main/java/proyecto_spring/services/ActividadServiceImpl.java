@@ -8,6 +8,7 @@ import proyecto_spring.entities.Actividad;
 import proyecto_spring.repositories.ActividadRepository;
 import proyecto_spring.repositories.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +61,23 @@ public class ActividadServiceImpl implements ActividadService{
         return actividadOptional;
     }
 
+    @Override
+    public List<Actividad> findByFechaHoraActividadBetween(LocalDateTime inicio, LocalDateTime fin) {
+        return actividadRepository.findByFechaHoraActividadBetween(inicio, fin);
+    }
 
+    @Override
+    public List<Actividad> findByDescripcionContaining(String descripcion) {
+        return actividadRepository.findByDescripcionContaining(descripcion);
+    }
+
+    @Override
+    public List<Actividad> findByUsuarioId(Long usuarioId) {
+        return actividadRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public List<Actividad> buscarActividadesPorUsuarioYFecha(Long usuarioId, LocalDateTime inicio, LocalDateTime fin) {
+        return actividadRepository.buscarActividadesPorUsuarioYFecha(usuarioId, inicio, fin);
+    }
 }
