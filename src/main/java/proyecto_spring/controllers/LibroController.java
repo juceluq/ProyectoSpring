@@ -66,6 +66,17 @@ public class LibroController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/disponible")
+    @Operation(summary = "Obtiene una lista de libros por disponibilidad.")
+    public List<Libro> lista(@RequestParam boolean disponibilidad){
+        return libroService.findByDisponible(disponibilidad);
+    }
+
+    @GetMapping("/autor")
+    @Operation(summary = "Obtiene una lista de libros por autor.")
+    public List<Libro> findByAutor(@RequestParam String autor) {
+        return libroService.findByAutor(autor);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {

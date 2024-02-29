@@ -54,4 +54,15 @@ public class LibroServiceImpl implements LibroService {
         productOptional.ifPresent(libroDb -> libroRepository.delete(libroDb));
     return productOptional;
     }
+
+    @Override
+    public List<Libro> findByDisponible(boolean disponible) {
+        List<Libro> listaLibroDisponible = libroRepository.findAllByDisponibilidad(disponible);
+        return listaLibroDisponible;
+    }
+
+    @Override
+    public List<Libro> findByAutor(String autor) {
+        return libroRepository.findByAutorContainingIgnoreCase(autor);
+    }
 }

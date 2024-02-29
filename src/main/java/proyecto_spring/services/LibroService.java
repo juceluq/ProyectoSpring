@@ -13,4 +13,7 @@ public interface LibroService {
     Optional <Libro> update(Long id, Libro libro);
     Optional<Libro> delete(Long id);
 
+    List<Libro> findByDisponible(boolean disponible);
+
+    List<Libro> findByAutor(String autor);
 }
