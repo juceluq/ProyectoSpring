@@ -3,6 +3,7 @@ package proyecto_spring.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,9 +13,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import proyecto_spring.entities.Libro;
 import proyecto_spring.entities.Prestamo;
 import proyecto_spring.services.PrestamoService;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +71,23 @@ public class PrestamoController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/por-libro")
+    @Operation(summary = "Obtiene una lista de préstamos por libro.")
+    public List<Prestamo> buscarPorLibro(@RequestParam Long libroId) {
+        return prestamoService.findByLibroId(libroId);
+    }
+
+    @GetMapping("/por-usuario")
+    @Operation(summary = "Obtiene una lista de préstamos por usuario.")
+    public List<Prestamo> buscarPorUsuario(@RequestParam Long usuarioId) {
+        return prestamoService.findByUsuarioId(usuarioId);
+    }
+    @GetMapping("/atrasados")
+    @Operation(summary = "Obtiene una lista de préstamos atrasados.")
+    public List<Prestamo> buscarPrestamosAtrasados() {
+        return prestamoService.findPrestamosAtrasados();
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -78,4 +98,6 @@ public class PrestamoController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+
+
 }

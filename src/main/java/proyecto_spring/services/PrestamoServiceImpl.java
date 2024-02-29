@@ -4,11 +4,14 @@ package proyecto_spring.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import proyecto_spring.entities.Libro;
 import proyecto_spring.entities.Prestamo;
+import proyecto_spring.entities.User;
 import proyecto_spring.repositories.LibroRepository;
 import proyecto_spring.repositories.PrestamoRepository;
 import proyecto_spring.repositories.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,4 +70,21 @@ public class PrestamoServiceImpl implements PrestamoService{
         prestamoOptional.ifPresent(prestamoDb -> prestamoRepository.delete(prestamoDb));
         return prestamoOptional;
     }
+
+    @Override
+    public List<Prestamo> findByLibroId(Long libroId) {
+        return prestamoRepository.findByLibroId(libroId);
+    }
+
+    @Override
+    public List<Prestamo> findByUsuarioId(Long usuarioId) {
+        return prestamoRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public List<Prestamo> findPrestamosAtrasados() {
+        LocalDate fechaActual = LocalDate.now();
+        return prestamoRepository.findPrestamosAtrasados(fechaActual);
+    }
+
 }
