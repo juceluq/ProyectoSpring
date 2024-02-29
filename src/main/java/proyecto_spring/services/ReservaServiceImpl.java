@@ -8,6 +8,7 @@ import proyecto_spring.repositories.LibroRepository;
 import proyecto_spring.repositories.ReservaRepository;
 import proyecto_spring.repositories.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +66,30 @@ public class ReservaServiceImpl implements ReservaService{
         Optional <Reserva> reservaOptional = reservaRepository.findById(id);
         reservaOptional.ifPresent(reservaDb -> reservaRepository.delete(reservaDb));
         return reservaOptional;
+    }
+
+    @Override
+    public List<Reserva> findByEstado(Reserva.EstadoReserva estado) {
+        return reservaRepository.findByEstado(estado);
+    }
+
+    @Override
+    public List<Reserva> findByUsuarioId(Long usuarioId) {
+        return reservaRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public List<Reserva> findByFechaReservaBetween(LocalDate inicio, LocalDate fin) {
+        return reservaRepository.findByFechaReservaBetween(inicio, fin);
+    }
+
+    @Override
+    public List<Reserva> findByLibroId(Long libroId) {
+        return reservaRepository.findByLibroId(libroId);
+    }
+
+    @Override
+    public List<Reserva> buscarPorEstadoOrdenadoPorFecha(Reserva.EstadoReserva estado) {
+        return reservaRepository.buscarPorEstadoOrdenadoPorFecha(estado);
     }
 }

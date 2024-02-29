@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import proyecto_spring.entities.Reserva;
 import proyecto_spring.services.ReservaService;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,39 @@ public class ReservaController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/estado/{estado}")
+    @Operation(summary = "Obtiene una lista de reservas por estado.")
+    @ApiResponse(responseCode = "200", description = "Lista de reservas por estado encontradas.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class)))
+    public ResponseEntity<List<Reserva>> findByEstado(@PathVariable Reserva.EstadoReserva estado) {
+        List<Reserva> reservas = reservaService.findByEstado(estado);
+        return ResponseEntity.ok(reservas);
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    @Operation(summary = "Obtiene una lista de reservas por ID de usuario.")
+    @ApiResponse(responseCode = "200", description = "Lista de reservas por ID de usuario encontradas.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class)))
+    public ResponseEntity<List<Reserva>> findByUsuarioId(@PathVariable Long usuarioId) {
+        List<Reserva> reservas = reservaService.findByUsuarioId(usuarioId);
+        return ResponseEntity.ok(reservas);
+    }
+
+    @GetMapping("/fecha")
+    @Operation(summary = "Obtiene una lista de reservas entre dos fechas.")
+    @ApiResponse(responseCode = "200", description = "Lista de reservas entre dos fechas encontradas.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class)))
+    public ResponseEntity<List<Reserva>> findByFechaReservaBetween(@RequestParam LocalDate inicio, @RequestParam LocalDate fin) {
+        List<Reserva> reservas = reservaService.findByFechaReservaBetween(inicio, fin);
+        return ResponseEntity.ok(reservas);
+    }
+
+    @GetMapping("/libro/{libroId}")
+    @Operation(summary = "Obtiene una lista de reservas por ID de libro.")
+    @ApiResponse(responseCode = "200", description = "Lista de reservas por ID de libro encontradas.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class)))
+    public ResponseEntity<List<Reserva>> findByLibroId(@PathVariable Long libroId) {
+        List<Reserva> reservas = reservaService.findByLibroId(libroId);
+        return ResponseEntity.ok(reservas);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {

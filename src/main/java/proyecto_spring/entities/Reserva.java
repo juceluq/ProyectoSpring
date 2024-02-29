@@ -38,7 +38,7 @@ public class Reserva {
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate fechaReserva;
 
-    private enum EstadoReserva {
+    public enum EstadoReserva {
         RESERVADO,
         CANCELADO,
         DISPONIBLE

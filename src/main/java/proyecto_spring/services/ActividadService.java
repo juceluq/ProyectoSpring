@@ -21,8 +21,8 @@ public interface ActividadService {
     List<Actividad> findByDescripcionContaining(String descripcion);
     List<Actividad> findByUsuarioId(Long usuarioId);
     List<Actividad> buscarActividadesPorUsuarioYFecha(
-            @Param("usuarioId") Long usuarioId,
-            @Param("inicio") LocalDateTime inicio,
-            @Param("fin") LocalDateTime fin);
+            Long usuarioId,
+            LocalDateTime inicio,
+            LocalDateTime fin);
 
 }
